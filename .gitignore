@@ -1,7 +1,7 @@
 # Node.js dependencies
 node_modules/
 frontend/node_modules/
-frontend/src/assest/
+frontend/src/assets/
 backend/node_modules/
 
 # Build output
