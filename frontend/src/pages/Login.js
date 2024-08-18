@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import loginIcon from "assets/other/loginIcon.png"
+import avaIcon from "assets/other/avaIcon.png"
 import { Link } from 'react-router-dom';
 
 export const Login = () => {
@@ -18,16 +18,19 @@ export const Login = () => {
       }
     })
   }
+  const handleSubmit = (e) =>{
+      e.preventDefault()
+  }
   return (
-    <div className='flex flex-col items-center justify-center h-[90vh] bg-gray-100 p-4'>
+    <div className='flex flex-col items-center justify-center h-[90vh] p-4'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-h-[85vh] max-w-lg'>
-        <div className='flex flex-col items-center'>
-          <img src={loginIcon} alt='Logo Icon' className='w-20 h-20 rounded-full border-2 border-gray-300 shadow-lg mb-4' />
-          <h2 className='text md:text-2xl lg:text-4xl font-bold text-blue-800 italic transform transition-transform hover:scale-105 '>
+        <div className='flex flex-col items-center select-none'>
+          <img src={avaIcon} alt='ava Icon' className='w-20 h-20 rounded-full border-2 border-gray-300 shadow-lg mb-4' />
+          <h2 className='text md:text-2xl lg:text-4xl font-bold text-blue-800 italic transform transition-transform hover:scale-105'>
             Login
           </h2>
         </div>
-        <form className='flex flex-col gap-6'>
+        <form className='flex flex-col gap-6' onSubmit={handleSubmit}>
           <div>
             <label htmlFor='email' className='block text-base font-medium text-gray-500 mb-1'>
               Email:
@@ -39,6 +42,7 @@ export const Login = () => {
               name='email'
               value={data.email}
               onChange={handleOnChange}
+              required
               className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500' />
           </div>
           <div>
@@ -53,6 +57,7 @@ export const Login = () => {
                 name='password'
                 value={data.password}
                 onChange={handleOnChange}
+                required
                 className='w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10' />
               <button
                 type='button'
