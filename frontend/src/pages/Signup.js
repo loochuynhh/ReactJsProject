@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import avaIcon from "assets/other/avaIcon.png";
 import { Link } from 'react-router-dom';
 import { imageToBase64 } from 'helpers/imageToBase64';
+import summaryAPI from 'common';
 
 export const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,14 +24,27 @@ export const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    if(data.confirmPassword === data.password){
+      const fetchResponse = await fetch(summaryAPI.signup.url, {
+        method: summaryAPI.signup.method,
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      console.log("fetchResponse",fetchResponse)
+      const dataResponse = await fetchResponse.json()
+      console.log("Data Response: ", dataResponse)
+    }else{
+      console.log("Confrim password and password have to same")
+    }
   };
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
     const imagePic = await imageToBase64(file);
-    console.log(imagePic);
     setData((prev) => ({
       ...prev,
       profilePic: imagePic
@@ -75,7 +89,6 @@ export const Signup = () => {
               Name:
             </label>
             <input
-              id='name'
               type='text'
               placeholder='Enter your name'
               name='name'
