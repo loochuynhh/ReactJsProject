@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import avaIcon from "assets/other/avaIcon.png"
-import { Link } from 'react-router-dom';
+import { json, Link, useNavigate } from 'react-router-dom';
+import summaryAPI from 'common';
+import { toast } from 'react-toastify';
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,8 +20,25 @@ export const Login = () => {
       }
     })
   }
-  const handleSubmit = (e) =>{
+  const navigate = useNavigate()
+  const handleSubmit = async(e) =>{
       e.preventDefault()
+      console.log("data", data)
+      const request = await fetch(summaryAPI.login.url,{
+        method: summaryAPI.login.method,
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      const dataResponse = await request.json()
+      if(dataResponse.success){
+        toast.success("Login successfully")
+        navigate("/")
+      }
+      else{
+        toast.error(dataResponse.message)
+      }
   }
   return (
     <div className='flex flex-col items-center justify-center h-[90vh] p-4'>

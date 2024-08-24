@@ -3,11 +3,14 @@ const bcrypt = require('bcryptjs');
 
 async function userSignupController(req, res) {
     try {
-        console.log("req nè: ",req);
         if (!req.body) {
             throw new Error("Request body is missing");
         }        
         const {name, email, password} = req.body
+        const user = await userModel.findOne({email})
+        if(user){
+            throw new Error("User already exist")
+        }
         if(!name){
             throw new Error("Please provide name")
         }
@@ -25,6 +28,7 @@ async function userSignupController(req, res) {
         }
         const payload = {
             ...req.body,
+            role: "GENERAL",
             password : hashPassword
         }
         const userData = new userModel(payload)

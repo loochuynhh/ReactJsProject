@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import avaIcon from "assets/other/avaIcon.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { imageToBase64 } from 'helpers/imageToBase64';
 import summaryAPI from 'common';
-
+import { toast } from 'react-toastify';
 export const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,7 +15,7 @@ export const Signup = () => {
     confirmPassword: "",
     profilePic: ""
   });
-
+  const navigate = useNavigate()
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({
@@ -34,9 +34,13 @@ export const Signup = () => {
         },
         body: JSON.stringify(data)
       })
-      console.log("fetchResponse",fetchResponse)
       const dataResponse = await fetchResponse.json()
-      console.log("Data Response: ", dataResponse)
+      if(dataResponse.success){
+        toast.success(dataResponse.message)
+        navigate("/login")
+      }else if(dataResponse.error){
+        toast.error(dataResponse.message)
+      }
     }else{
       console.log("Confrim password and password have to same")
     }
