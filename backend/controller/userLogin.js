@@ -1,6 +1,6 @@
 const userModel = require("../models/userModel")
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken')
 async function userLoginController(req, res) {
     try {
         if (!req.body) {
@@ -21,11 +21,24 @@ async function userLoginController(req, res) {
         if(!checkPassword){
             throw new Error("Password or email incorrect")
         }
-        res.status(200).json({
+        const tokenData = {
+            _id : user._id,
+            email: user.email
+        }
+        const userToken = await jwt.sign(
+            tokenData,
+            process.env.JWT_KEY,
+            {expiresIn: 60*60*5}
+        )
+        const tokenOptions = {
+            httpOnly : true,
+            secure: true
+        }
+        res.cookie("token", userToken, tokenOptions).status(200).json({
             message: "Login successfully",
             success: true,
             error: false,
-            data: user
+            data: userToken
         })
     } catch (error) {
         res.json({

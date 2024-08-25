@@ -8,6 +8,10 @@ const summaryAPI = {
     login: {
         method: "POST",
         url: `${domain}api/login`
+    },
+    current_user: {
+        method: "GET",
+        url: `${domain}api/user-detail`
     }
 }
 export default summaryAPI 

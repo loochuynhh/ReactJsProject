@@ -23,9 +23,9 @@ export const Login = () => {
   const navigate = useNavigate()
   const handleSubmit = async(e) =>{
       e.preventDefault()
-      console.log("data", data)
       const request = await fetch(summaryAPI.login.url,{
         method: summaryAPI.login.method,
+        credentials:"include",
         headers: {
           "content-type": "application/json"
         },
